@@ -17,7 +17,6 @@ public class UrlManager {
 
     private String makeKey() {
         keyManager.makeKey();
-        System.out.println(keyManager.getKey());
         return keyManager.getKey();
     }
 }
