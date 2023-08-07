@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class mainController {
     UrlManager urlManager = new UrlManager();
 
-    @PostMapping("/makeKey")
-    public String makeKey(@RequestBody UrlCreateRequestDto urlCreateRequestDto) {
-        return urlManager.makeUrl(urlCreateRequestDto.getOriginUrl());
+    @PostMapping("/makeUrl")
+    public String makeUrl(@RequestBody UrlCreateRequestDto urlCreateRequestDto) {
+        return urlManager.makeUrl(urlCreateRequestDto.getOriginUrl()).getNewUrl();
     }
 }

@@ -6,4 +6,8 @@ public class UrlCreateRequestDto {
     public String getOriginUrl() {
         return this.originUrl;
     }
+
+    public void setOriginUrl(String originUrl) {
+        this.originUrl = originUrl;
+    }
 }
