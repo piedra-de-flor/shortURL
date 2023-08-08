@@ -1,21 +1,21 @@
 package com.example.shortURL.repository;
 
-import com.example.shortURL.domain.URL;
+import com.example.shortURL.domain.Url;
 
 import java.util.List;
 
-public class URLs implements Repository {
-    private final List<URL> urls;
+public class Urls implements Repository {
+    private final List<Url> urls;
 
-    public URLs(List<URL> urls) {
+    public Urls(List<Url> urls) {
         this.urls = urls;
     }
 
-    public List<URL> getUrls() {
+    public List<Url> getUrls() {
         return urls;
     }
 
-    public void saveUrl(URL url) {
+    public void saveUrl(Url url) {
         urls.add(url);
     }
 

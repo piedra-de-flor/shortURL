@@ -1,6 +1,6 @@
 package com.example.shortURL.controller;
 
-import com.example.shortURL.domain.URL;
+import com.example.shortURL.domain.Url;
 import com.example.shortURL.dto.UrlCreateRequestDto;
 import com.example.shortURL.dto.UrlSaveRequestDto;
 import com.example.shortURL.service.UrlManager;
@@ -19,7 +19,7 @@ public class mainController {
 
     @PostMapping("/saveUrl")
     public String saveUrl(@RequestBody UrlSaveRequestDto urlSaveRequestDto) {
-        URL saveUrl = new URL(
+        Url saveUrl = new Url(
                 urlSaveRequestDto.getOriginUrl(),
                 urlSaveRequestDto.getNewUrl(),
                 urlSaveRequestDto.getDeleteDate(),

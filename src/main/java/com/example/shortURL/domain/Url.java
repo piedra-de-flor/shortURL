@@ -2,20 +2,20 @@ package com.example.shortURL.domain;
 
 import java.time.LocalDateTime;
 
-public class URL {
+public class Url {
     private final int INITIAL_CALL_COUNT = 0;
     private final String originUrl;
     private final NewUrl newUrl;
     private LocalDateTime deleteDate;
     private int callCount;
 
-    public URL(String input, String newUrl) {
+    public Url(String input, String newUrl) {
         this.originUrl = input;
         this.newUrl = new NewUrl(newUrl);
         this.callCount = INITIAL_CALL_COUNT;
     }
 
-    public URL(String originUrl, NewUrl newUrl, LocalDateTime deleteDate, int callCount) {
+    public Url(String originUrl, NewUrl newUrl, LocalDateTime deleteDate, int callCount) {
         this.originUrl = originUrl;
         this.newUrl = newUrl;
         this.deleteDate = deleteDate;
