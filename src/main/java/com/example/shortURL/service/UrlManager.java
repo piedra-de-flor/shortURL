@@ -24,7 +24,7 @@ public class UrlManager {
 
     public String makeUrl(String input) {
         this.newUrl = new Url(input, makeKey());
-
+        saveUrl(newUrl);
         return BASE_URL + newUrl.getNewUrl();
     }
 
