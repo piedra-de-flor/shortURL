@@ -2,7 +2,8 @@ package com.example.shortURL.service;
 
 import com.example.shortURL.domain.Url;
 import com.example.shortURL.dto.UrlCreateResponseDto;
-import com.example.shortURL.repository.Urls;
+import com.example.shortURL.repository.Repository;
+import com.example.shortURL.repository.UrlsCollection;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -10,11 +11,12 @@ import java.util.ArrayList;
 @Service
 public class UrlManager {
     private Url newUrl;
-    private final Urls urls;
-    private final KeyManager keyManager = new RandomKeyManager();
+    private final Repository urls;
+    private final KeyManager keyManager;
 
     public UrlManager() {
-        this.urls = new Urls(new ArrayList<>());
+        this.urls = new UrlsCollection(new ArrayList<>());
+        keyManager = new RandomKeyManager();
     }
 
     public UrlCreateResponseDto makeUrl(String input) {
@@ -23,12 +25,16 @@ public class UrlManager {
     }
 
     private String makeKey() {
-        keyManager.makeKey();
-        return keyManager.getKey();
+        String key;
+
+        do {
+            keyManager.makeKey();
+            key = keyManager.getKey();
+        } while (urls.validateDuplication(key));
     }
 
     public String saveUrl(Url url) {
-        urls.saveUrl(url);
+        urls.save(url);
         return "저장 성공";
     }
 }

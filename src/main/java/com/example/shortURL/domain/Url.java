@@ -1,11 +1,16 @@
 package com.example.shortURL.domain;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
 import java.time.LocalDateTime;
 
+@Entity
 public class Url {
     private final int INITIAL_CALL_COUNT = 0;
-    private final String originUrl;
+    @Id
     private final NewUrl newUrl;
+    private final String originUrl;
     private LocalDateTime deleteDate;
     private int callCount;
 
