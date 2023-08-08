@@ -26,6 +26,10 @@ public class RandomKeyManager implements KeyManager {
                 .toString();
     }
 
+    @Override
+    public void makeKey(String input) {
+    }
+
     public String getKey() {
         return randomKey;
     }
