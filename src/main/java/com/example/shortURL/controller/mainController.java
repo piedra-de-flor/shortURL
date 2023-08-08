@@ -1,6 +1,8 @@
 package com.example.shortURL.controller;
 
+import com.example.shortURL.domain.URL;
 import com.example.shortURL.dto.UrlCreateRequestDto;
+import com.example.shortURL.dto.UrlSaveRequestDto;
 import com.example.shortURL.service.UrlManager;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,5 +15,17 @@ public class mainController {
     @PostMapping("/makeUrl")
     public String makeUrl(@RequestBody UrlCreateRequestDto urlCreateRequestDto) {
         return urlManager.makeUrl(urlCreateRequestDto.getOriginUrl()).getNewUrl();
+    }
+
+    @PostMapping("/saveUrl")
+    public String saveUrl(@RequestBody UrlSaveRequestDto urlSaveRequestDto) {
+        URL saveUrl = new URL(
+                urlSaveRequestDto.getOriginUrl(),
+                urlSaveRequestDto.getNewUrl(),
+                urlSaveRequestDto.getDeleteDate(),
+                urlSaveRequestDto.getCallCount()
+        );
+
+        return urlManager.saveUrl(saveUrl);
     }
 }

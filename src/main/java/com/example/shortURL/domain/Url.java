@@ -15,6 +15,13 @@ public class URL {
         this.callCount = INITIAL_CALL_COUNT;
     }
 
+    public URL(String originUrl, NewUrl newUrl, LocalDateTime deleteDate, int callCount) {
+        this.originUrl = originUrl;
+        this.newUrl = newUrl;
+        this.deleteDate = deleteDate;
+        this.callCount = callCount;
+    }
+
     public String getNewUrl() {
         return newUrl.getNewUrl();
     }
