@@ -1,3 +1,4 @@
+/*
 package com.example.shortURL.configuration;
 
 import com.example.shortURL.domain.Url;
@@ -21,3 +22,4 @@ public class RepositoryConfig {
     }
 
 }
+*/
