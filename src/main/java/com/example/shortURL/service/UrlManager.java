@@ -12,18 +12,17 @@ import java.util.List;
 @Service
 public class UrlManager {
     private final String BASE_URL = "localhost:8080/";
-    private Url newUrl;
     private final Repository urls;
     private final KeyManager keyManager;
 
     @Autowired
-    public UrlManager() {
+    public UrlManager(RandomKeyManager randomKeyManager) {
         this.urls = new UrlsCollection(new ArrayList<>());
-        keyManager = new RandomKeyManager();
+        this.keyManager = randomKeyManager;
     }
 
     public String makeUrl(String input) {
-        this.newUrl = new Url(input, makeKey());
+        Url newUrl = new Url(input, makeKey());
         saveUrl(newUrl);
         return BASE_URL + newUrl.getNewUrl();
     }

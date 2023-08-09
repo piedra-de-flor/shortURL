@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-public class MainController {
+public class UrlController {
     private final UrlManager urlManager;
 
     @Autowired
-    public MainController(UrlManager urlManager) {
+    public UrlController(UrlManager urlManager) {
         this.urlManager = urlManager;
     }
 
@@ -37,8 +37,8 @@ public class MainController {
     }
 
     @GetMapping("/readByNewUrl/{url}")
-    public Url readByNewUrl(@PathVariable String newUrl) {
-        return urlManager.readByNewUrl(newUrl);
+    public Url readByNewUrl(@PathVariable String url) {
+        return urlManager.readByNewUrl(url);
     }
 
     @PostMapping("/delete")
