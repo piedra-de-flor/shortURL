@@ -1,39 +1,29 @@
 package com.example.shortURL.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 
 public class Url {
     private final int INITIAL_CALL_COUNT = 0;
-    private final NewUrl newUrl;
-    private final String originUrl;
+    private final OriginUrl originUrl;
+    private final String newUrl;
     private LocalDateTime deleteDate;
     private int callCount;
 
     @Autowired
     public Url(String input, String newUrl) {
-        this.originUrl = input;
-        this.newUrl = new NewUrl(newUrl);
+        this.newUrl = newUrl;
+        this.originUrl = new OriginUrl(input);
         this.callCount = INITIAL_CALL_COUNT;
     }
 
-    @Autowired
-    public Url(String originUrl, NewUrl newUrl, LocalDateTime deleteDate, int callCount) {
-        this.originUrl = originUrl;
-        this.newUrl = newUrl;
-        this.deleteDate = deleteDate;
-        this.callCount = callCount;
+    public String getOriginUrl() {
+        return originUrl.getOriginUrl();
     }
 
     public String getNewUrl() {
-        return newUrl.getNewUrl();
-    }
-
-    public String getOriginUrl() {
-        return originUrl;
+        return newUrl;
     }
 
     public LocalDateTime getDeleteDate() {
