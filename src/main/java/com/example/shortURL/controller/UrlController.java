@@ -41,6 +41,11 @@ public class UrlController {
         return urlManager.readByNewUrl(url);
     }
 
+    @GetMapping("/readByOriginUrl/{url}")
+    public List<Url> readByOriginUrl(@PathVariable String url) {
+        return urlManager.readByOriginUrl(url);
+    }
+
     @PostMapping("/delete")
     public void deleteUrl(@RequestBody String newUrl) {
         urlManager.deleteUrl(newUrl);
