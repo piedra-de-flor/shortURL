@@ -16,6 +16,7 @@ public class Url {
         this.newUrl = newUrl;
         this.originUrl = new OriginUrl(input);
         this.callCount = INITIAL_CALL_COUNT;
+        setDeleteDate();
     }
 
     public String getOriginUrl() {
