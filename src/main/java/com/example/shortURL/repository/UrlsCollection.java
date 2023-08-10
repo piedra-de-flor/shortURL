@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Component
 public class UrlsCollection implements Repository {
@@ -39,10 +38,16 @@ public class UrlsCollection implements Repository {
     }
 
     @Override
-    public List<Url> findByOriginUrl(String originUrl) {
-        return urls.stream()
-                .filter(url -> url.getNewUrl().equals(originUrl))
-                .collect(Collectors.toList());
+    public Url findByOriginUrl(String originUrl) {
+        Optional<Url> result = urls.stream()
+                .filter(url -> url.getOriginUrl().equals(originUrl))
+                .findAny();
+
+        if (result.isPresent()) {
+            return result.get();
+        } else {
+            throw new IllegalArgumentException("there is no url");
+        }
     }
 
     @Override

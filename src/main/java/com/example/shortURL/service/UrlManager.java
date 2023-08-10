@@ -3,15 +3,22 @@ package com.example.shortURL.service;
 import com.example.shortURL.domain.Url;
 import com.example.shortURL.repository.Repository;
 import com.example.shortURL.repository.UrlsCollection;
+import com.example.shortURL.vo.OriginUrl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
+@CacheConfig(cacheNames = "UrlCache")
 public class UrlManager {
-    private final String BASE_URL = "localhost:8080/";
     private final Repository urls;
     private final KeyManager keyManager;
 
@@ -21,10 +28,20 @@ public class UrlManager {
         this.keyManager = randomKeyManager;
     }
 
-    public String makeUrl(String input) {
-        Url newUrl = new Url(input, makeKey());
-        saveUrl(newUrl);
-        return BASE_URL + newUrl.getNewUrl();
+    public Url takeInput(String input) {
+        OriginUrl originUrlVO = new OriginUrl(input);
+        return makeUrl(originUrlVO.getOriginUrl());
+    }
+
+    @Cacheable(key = "#originUrl")
+    private Url makeUrl(String originUrl) {
+        try {
+            return urls.findByOriginUrl(originUrl);
+        } catch (IllegalArgumentException e) {
+            Url newUrl = new Url(originUrl, makeKey());
+            saveUrl(newUrl);
+            return newUrl;
+        }
     }
 
     private String makeKey() {
@@ -47,19 +64,25 @@ public class UrlManager {
         return urls.findAll();
     }
 
+    @Cacheable(key = "#newUrl")
     public Url readByNewUrl(String newUrl) {
         return urls.findByNewUrl(newUrl);
     }
 
-    public List<Url> readByOriginUrl(String originUrl) {
+    @Cacheable(key = "#originUrl")
+    public Url readByOriginUrl(String originUrl) {
         return urls.findByOriginUrl(originUrl);
     }
 
-    public void updateUrl(Url updateUrl) {
+    @CachePut(key = "#originUrl")
+    public Url updateUrl(String originUrl) {
+        Url updateUrl = readByOriginUrl(originUrl);
         urls.update(updateUrl);
+        return readByNewUrl(updateUrl.getNewUrl());
     }
 
-    public void deleteUrl(String targetUrl) {
-        urls.delete(targetUrl);
+    @CacheEvict(key = "#originUrl", beforeInvocation = false)
+    public void deleteUrl(String originUrl) {
+        urls.delete(originUrl);
     }
 }

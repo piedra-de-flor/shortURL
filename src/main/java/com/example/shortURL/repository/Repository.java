@@ -9,7 +9,7 @@ public interface Repository {
     List<Url> findAll();
     Url findByNewUrl(String newUrl);
 
-    List<Url> findByOriginUrl(String originUrl);
+    Url findByOriginUrl(String originUrl);
 
     void save(Url url);
     void update(Url url);

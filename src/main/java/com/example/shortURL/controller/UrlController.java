@@ -18,7 +18,7 @@ public class UrlController {
 
     @PostMapping("/makeUrl")
     public String makeUrl(@RequestBody String originUrl) {
-        return urlManager.makeUrl(originUrl);
+        return urlManager.takeInput(originUrl).getNewUrl();
     }
 
     @PostMapping("/saveUrl")
@@ -27,8 +27,8 @@ public class UrlController {
     }
 
     @PostMapping("/updateUrl")
-    public void updateUrl(@RequestBody Url updateUrl) {
-        urlManager.updateUrl(updateUrl);
+    public Url updateUrl(@RequestBody Url updateUrl) {
+        return urlManager.updateUrl(updateUrl.getOriginUrl());
     }
 
     @GetMapping("/readAll")
@@ -42,7 +42,7 @@ public class UrlController {
     }
 
     @GetMapping("/readByOriginUrl/{url}")
-    public List<Url> readByOriginUrl(@PathVariable String url) {
+    public Url readByOriginUrl(@PathVariable String url) {
         return urlManager.readByOriginUrl(url);
     }
 
