@@ -61,4 +61,5 @@
 
 
 # Class diagram
-![image](https://github.com/piedra-de-flor/shortURL/assets/101418352/8d612381-ebfe-4bb4-b97b-dbe6215955cc)
+![image](https://github.com/piedra-de-flor/shortURL/assets/101418352/85ce8615-aa3b-4dc0-9665-2dbc0c2e6eb9)
+
