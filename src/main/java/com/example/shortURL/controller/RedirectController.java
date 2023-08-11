@@ -2,7 +2,7 @@ package com.example.shortURL.controller;
 
 import com.example.shortURL.domain.Url;
 import jakarta.servlet.http.HttpServletResponse;
-import com.example.shortURL.service.UrlManager;
+import com.example.shortURL.service.UrlCRUDManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,15 +12,15 @@ import java.io.IOException;
 
 @Controller
 public class RedirectController {
-    private final UrlManager urlManager;
+    private final UrlCRUDManager urlCRUDManager;
 
     @Autowired
-    public RedirectController(UrlManager urlManager) {
-        this.urlManager = urlManager;
+    public RedirectController(UrlCRUDManager urlCRUDManager) {
+        this.urlCRUDManager = urlCRUDManager;
     }
     @GetMapping("/{newUrl}")
     public void redirectUrl(@PathVariable String newUrl, HttpServletResponse httpServletResponse) throws IOException {
-        Url url = urlManager.readByNewUrl(newUrl);
+        Url url = urlCRUDManager.readByNewUrl(newUrl);
         url.plusCallCount();
         String targetUrl = url.getOriginUrl();
         httpServletResponse.sendRedirect(targetUrl);

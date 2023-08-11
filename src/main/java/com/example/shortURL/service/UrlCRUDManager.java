@@ -18,12 +18,12 @@ import java.util.List;
 @Service
 @Transactional
 @CacheConfig(cacheNames = "UrlCache")
-public class UrlManager {
+public class UrlCRUDManager {
     private final Repository urls;
     private final KeyManager keyManager;
 
     @Autowired
-    public UrlManager(RandomKeyManager randomKeyManager) {
+    public UrlCRUDManager(RandomKeyManager randomKeyManager) {
         this.urls = new UrlsCollection(new ArrayList<>());
         this.keyManager = randomKeyManager;
     }
@@ -83,8 +83,8 @@ public class UrlManager {
         return readByNewUrl(updateUrl.getNewUrl());
     }
 
-    @CacheEvict(key = "#originUrl", beforeInvocation = false)
-    public void deleteUrl(String originUrl) {
-        urls.delete(originUrl);
+    @CacheEvict(key = "#newUrl", beforeInvocation = false)
+    public void deleteUrl(String newUrl) {
+        urls.delete(newUrl);
     }
 }
