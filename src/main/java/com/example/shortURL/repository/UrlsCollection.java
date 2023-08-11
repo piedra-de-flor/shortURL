@@ -59,6 +59,7 @@ public class UrlsCollection implements Repository {
     public void update(Url updateUrl) {
         Url target = findByNewUrl(updateUrl.getNewUrl());
         int targetIndex = urls.indexOf(target);
+        updateUrl.setDeleteDate();
         urls.set(targetIndex, updateUrl);
     }
 

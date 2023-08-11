@@ -36,7 +36,9 @@ public class UrlManager {
     @Cacheable(key = "#originUrl")
     private Url makeUrl(String originUrl) {
         try {
-            return urls.findByOriginUrl(originUrl);
+            Url urlData = urls.findByOriginUrl(originUrl);
+            updateUrl(urlData.getNewUrl());
+            return urlData;
         } catch (IllegalArgumentException e) {
             Url newUrl = new Url(originUrl, makeKey());
             saveUrl(newUrl);
@@ -69,14 +71,14 @@ public class UrlManager {
         return urls.findByNewUrl(newUrl);
     }
 
-    @Cacheable(key = "#originUrl")
+    @Cacheable(key = "originUrl")
     public Url readByOriginUrl(String originUrl) {
         return urls.findByOriginUrl(originUrl);
     }
 
-    @CachePut(key = "#originUrl")
-    public Url updateUrl(String originUrl) {
-        Url updateUrl = readByOriginUrl(originUrl);
+    @CachePut(key = "#newUrl")
+    public Url updateUrl(String newUrl) {
+        Url updateUrl = readByNewUrl(newUrl);
         urls.update(updateUrl);
         return readByNewUrl(updateUrl.getNewUrl());
     }
