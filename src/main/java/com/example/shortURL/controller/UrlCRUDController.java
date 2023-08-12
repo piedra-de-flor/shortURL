@@ -50,4 +50,9 @@ public class UrlCRUDController {
     public void deleteUrl(@RequestBody String newUrl) {
         urlCRUDManager.deleteUrl(newUrl);
     }
+
+    @PostMapping("/deleteAll")
+    public void deleteUrl() {
+        urlCRUDManager.deleteAllUrl();
+    }
 }

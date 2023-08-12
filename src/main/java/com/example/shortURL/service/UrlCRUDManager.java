@@ -89,4 +89,9 @@ public class UrlCRUDManager {
     public void deleteUrl(String newUrl) {
         urls.delete(newUrl);
     }
+
+    @CacheEvict(key = "*", beforeInvocation = false)
+    public void deleteAllUrl() {
+        urls.findAll().removeAll(urls.findAll());
+    }
 }
