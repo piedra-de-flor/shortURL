@@ -23,18 +23,20 @@ public class UrlCRUDManager {
     private final KeyManager keyManager;
 
     @Autowired
-    public UrlCRUDManager(RandomKeyManager randomKeyManager) {
+    public UrlCRUDManager(KeyManager randomKeyManager) {
         this.urls = new UrlsCollection(new ArrayList<>());
         this.keyManager = randomKeyManager;
     }
 
-    public Url takeInput(String input) {
+    private String changeInputForm(String input) {
         OriginUrl originUrlVO = new OriginUrl(input);
-        return makeUrl(originUrlVO.getOriginUrl());
+        return originUrlVO.getOriginUrl();
     }
 
     @Cacheable(key = "#originUrl")
-    private Url makeUrl(String originUrl) {
+    public Url makeUrl(String originUrl) {
+        originUrl = changeInputForm(originUrl);
+
         try {
             Url urlData = urls.findByOriginUrl(originUrl);
             updateUrl(urlData.getNewUrl());

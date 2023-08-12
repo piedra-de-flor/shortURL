@@ -2,7 +2,7 @@ package com.example.shortURL.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
@@ -23,6 +23,11 @@ public class Url {
         this.callCount = INITIAL_CALL_COUNT;
         setDeleteDate();
     }
+    public Url() {
+        this.newUrl = null;
+        this.originUrl = null;
+    }
+
 
     public String getOriginUrl() {
         return this.originUrl;

@@ -18,7 +18,7 @@ public class UrlCRUDController {
 
     @PostMapping("/makeUrl")
     public String makeUrl(@RequestBody String originUrl) {
-        return urlCRUDManager.takeInput(originUrl).getNewUrl();
+        return urlCRUDManager.makeUrl(originUrl).getNewUrl();
     }
 
     @PostMapping("/saveUrl")
