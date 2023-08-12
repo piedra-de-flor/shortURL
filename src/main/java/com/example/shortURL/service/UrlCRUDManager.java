@@ -75,7 +75,7 @@ public class UrlCRUDManager {
 
     @Cacheable(key = "originUrl")
     public Url readByOriginUrl(String originUrl) {
-        return urls.findByOriginUrl(originUrl);
+        return urls.findByOriginUrl(changeInputForm(originUrl));
     }
 
     @CachePut(key = "#newUrl")

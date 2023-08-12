@@ -2,7 +2,6 @@ package com.example.shortURL.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
