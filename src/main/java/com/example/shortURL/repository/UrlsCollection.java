@@ -30,11 +30,7 @@ public class UrlsCollection implements Repository {
                 .filter(url -> url.getNewUrl().equals(newUrl))
                 .findAny();
 
-        if (result.isPresent()) {
-            return result.get();
-        } else {
-            throw new IllegalArgumentException("there is no url");
-        }
+        return checkFindUrlIsPresent(result);
     }
 
     @Override
@@ -43,11 +39,14 @@ public class UrlsCollection implements Repository {
                 .filter(url -> url.getOriginUrl().equals(originUrl))
                 .findAny();
 
-        if (result.isPresent()) {
-            return result.get();
-        } else {
-            throw new IllegalArgumentException("there is no url");
+        return checkFindUrlIsPresent(result);
+    }
+
+    private Url checkFindUrlIsPresent(Optional<Url> resultForFind) {
+        if (resultForFind.isPresent()) {
+            return resultForFind.get();
         }
+        throw new IllegalArgumentException("there is no Url");
     }
 
     @Override

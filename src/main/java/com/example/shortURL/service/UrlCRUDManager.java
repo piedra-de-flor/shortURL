@@ -30,6 +30,7 @@ public class UrlCRUDManager {
 
     private String changeInputForm(String input) {
         OriginUrl originUrlVO = new OriginUrl(input);
+
         return originUrlVO.getOriginUrl();
     }
 
@@ -40,10 +41,12 @@ public class UrlCRUDManager {
         try {
             Url urlData = urls.findByOriginUrl(originUrl);
             updateUrl(urlData.getNewUrl());
+
             return urlData;
         } catch (IllegalArgumentException e) {
             Url newUrl = new Url(originUrl, makeKey());
             saveUrl(newUrl);
+
             return newUrl;
         }
     }
@@ -61,6 +64,7 @@ public class UrlCRUDManager {
 
     public String saveUrl(Url url) {
         urls.save(url);
+
         return "저장 성공";
     }
 
@@ -82,6 +86,7 @@ public class UrlCRUDManager {
     public Url updateUrl(String newUrl) {
         Url updateUrl = readByNewUrl(newUrl);
         urls.update(updateUrl);
+
         return readByNewUrl(updateUrl.getNewUrl());
     }
 
@@ -92,6 +97,7 @@ public class UrlCRUDManager {
 
     @CacheEvict(key = "*", beforeInvocation = false)
     public void deleteAllUrl() {
-        urls.findAll().removeAll(urls.findAll());
+        List<Url> targetList = urls.findAll();
+        targetList.removeAll(targetList);
     }
 }
