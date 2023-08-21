@@ -56,7 +56,7 @@ public class UrlsCollection implements Repository {
 
     @Override
     public void update(Url updateUrl) {
-        Url target = findByNewUrl(updateUrl.getNewUrl());
+        Url target = findByOriginUrl(updateUrl.getOriginUrl());
         int targetIndex = urls.indexOf(target);
         updateUrl.setDeleteDate();
         urls.set(targetIndex, updateUrl);
@@ -64,7 +64,7 @@ public class UrlsCollection implements Repository {
 
     @Override
     public void delete(String removeUrl) {
-        Url target = findByNewUrl(removeUrl);
+        Url target = findByOriginUrl(removeUrl);
         urls.remove(target);
     }
 }

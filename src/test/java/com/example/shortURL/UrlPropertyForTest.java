@@ -17,7 +17,4 @@ public class UrlPropertyForTest {
     public UrlCRUDController getTestController() {
         return testController;
     }
-
-    public void deleteAllTestData() {
-    }
 }

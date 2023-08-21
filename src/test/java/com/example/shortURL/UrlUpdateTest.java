@@ -13,13 +13,13 @@ public class UrlUpdateTest extends UrlPropertyForTest {
     @DisplayName("Url 소멸 기간 갱신 테스트")
     @Test
     public void Url_Update_테스트() throws InterruptedException {
-        Url testUrl = new Url("test", "testKey");
+        Url testUrl = new Url("http://www.test", "testKey");
         super.getTestCrudManager().saveUrl(testUrl);
 
         LocalDateTime originTime = testUrl.getDeleteDate();
-
         Thread.sleep(1000);
-        super.getTestCrudManager().updateUrl("localhost:8080/testKey");
+
+        super.getTestCrudManager().updateUrl("test");
 
         LocalDateTime afterUpdateTime = testUrl.getDeleteDate();
 

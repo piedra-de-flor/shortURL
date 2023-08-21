@@ -22,7 +22,7 @@ public class UrlCreatTest extends UrlPropertyForTest {
     @ParameterizedTest
     @ValueSource(strings = { "naver.com", "www.naver.com", "http://naver.com", "http://www.naver.com"})
     public void Url_중복_생성_테스트(String input) {
-        super.getTestController().makeUrl(input);
+        super.getTestController().makeUrl("naver.com");
         super.getTestController().makeUrl(input);
 
         assertThat(super.getTestCrudManager().readAll().size()).isEqualTo(1);

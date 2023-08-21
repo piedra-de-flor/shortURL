@@ -40,7 +40,7 @@ public class UrlCRUDManager {
 
         try {
             Url urlData = urls.findByOriginUrl(originUrl);
-            updateUrl(urlData.getNewUrl());
+            updateUrl(urlData.getOriginUrl());
 
             return urlData;
         } catch (IllegalArgumentException e) {
@@ -72,30 +72,30 @@ public class UrlCRUDManager {
         return urls.findAll();
     }
 
-    @Cacheable(key = "#newUrl")
+
     public Url readByNewUrl(String newUrl) {
         return urls.findByNewUrl(newUrl);
     }
 
-    @Cacheable(key = "originUrl")
+    @Cacheable(key = "#originUrl")
     public Url readByOriginUrl(String originUrl) {
         return urls.findByOriginUrl(changeInputForm(originUrl));
     }
 
-    @CachePut(key = "#newUrl")
-    public Url updateUrl(String newUrl) {
-        Url updateUrl = readByNewUrl(newUrl);
+    @CachePut(key = "#originUrl")
+    public Url updateUrl(String originUrl) {
+        Url updateUrl = readByOriginUrl(originUrl);
         urls.update(updateUrl);
 
-        return readByNewUrl(updateUrl.getNewUrl());
+        return updateUrl;
     }
 
-    @CacheEvict(key = "#newUrl", beforeInvocation = false)
-    public void deleteUrl(String newUrl) {
-        urls.delete(newUrl);
+    @CacheEvict(key = "#originUrl", beforeInvocation = false)
+    public void deleteUrl(String originUrl) {
+        urls.delete(originUrl);
     }
 
-    @CacheEvict(key = "*", beforeInvocation = false)
+    @CacheEvict(allEntries = true)
     public void deleteAllUrl() {
         List<Url> targetList = urls.findAll();
         targetList.removeAll(targetList);
