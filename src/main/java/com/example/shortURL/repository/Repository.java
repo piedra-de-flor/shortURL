@@ -14,4 +14,5 @@ public interface Repository {
     void save(Url url);
     void update(Url url);
     void delete(String url);
+    int getDataSize();
 }

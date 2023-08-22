@@ -8,8 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.io.IOException;
-
 @Controller
 public class RedirectController {
     private final UrlRedirectManager redirectManager;
@@ -21,7 +19,7 @@ public class RedirectController {
         this.redirectManager = redirectManager;
     }
     @GetMapping("/{newUrl}")
-    public void redirectUrl(@PathVariable String newUrl, HttpServletResponse httpServletResponse) throws IOException {
-        redirectManager.redirect(newUrl, httpServletResponse, urlCRUDManager.getUrls());
+    public void redirectUrl(@PathVariable String newUrl, HttpServletResponse httpServletResponse) {
+        redirectManager.redirect(newUrl, httpServletResponse, urlCRUDManager.getDB());
     }
 }

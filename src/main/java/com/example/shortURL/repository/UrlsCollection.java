@@ -1,6 +1,9 @@
 package com.example.shortURL.repository;
 
 import com.example.shortURL.domain.Url;
+import com.example.shortURL.vo.NewUrl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -8,6 +11,7 @@ import java.util.Optional;
 
 @Component
 public class UrlsCollection implements Repository {
+    private final Logger log = LoggerFactory.getLogger(getClass());
     private final List<Url> urls;
 
     public UrlsCollection(List<Url> urls) {
@@ -16,7 +20,13 @@ public class UrlsCollection implements Repository {
 
     @Override
     public boolean validateDuplication(String newKey) {
-        return false;
+        try {
+            findByNewUrl(new NewUrl(newKey).getNewUrl());
+            return false;
+        } catch (Exception e) {
+            log.info("info log = {}", "duplication Key");
+            return true;
+        }
     }
 
     @Override
@@ -46,7 +56,8 @@ public class UrlsCollection implements Repository {
         if (resultForFind.isPresent()) {
             return resultForFind.get();
         }
-        throw new IllegalArgumentException("there is no Url");
+        log.warn("warn log = {}", "there is no equal data in DB");
+        throw new IllegalArgumentException();
     }
 
     @Override
@@ -66,5 +77,10 @@ public class UrlsCollection implements Repository {
     public void delete(String removeUrl) {
         Url target = findByOriginUrl(removeUrl);
         urls.remove(target);
+    }
+
+    @Override
+    public int getDataSize() {
+        return urls.size();
     }
 }

@@ -1,6 +1,9 @@
 package com.example.shortURL.service;
 
 import com.example.shortURL.domain.Url;
+import com.example.shortURL.repository.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -11,15 +14,16 @@ import java.util.List;
 @Component
 public class ScheduleTask {
     private final UrlCRUDManager crudManager;
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
     public ScheduleTask(UrlCRUDManager crudManager) {
         this.crudManager = crudManager;
     }
 
-    @Scheduled(cron = "59 59 23 * * ?",  zone="Asia/Seoul")
+    @Scheduled(cron = "59 59 23 * * ?",  zone = "Asia/Seoul")
     public void deleteExpirationDateUrl() {
-        System.out.println("schedule delete");
+        log.info("info log = {}", "Schedule task proceed");
         LocalDateTime now = LocalDateTime.now();
         List<Url> targets = crudManager.readAll()
                 .stream()
@@ -29,5 +33,12 @@ public class ScheduleTask {
         for (Url url : targets) {
             crudManager.deleteUrl(url.getNewUrl());
         }
+    }
+
+    @Scheduled(cron = "59 59 23 L * ?", zone = "Asia/Seoul")
+    public void infoDataBaseState() {
+        Repository DB = crudManager.getDB();
+        int currentSize = DB.getDataSize();
+        log.info("info log = there are {} datas in DB", currentSize);
     }
 }

@@ -29,7 +29,7 @@ public class UrlCRUDManager {
         this.keyManager = randomKeyManager;
     }
 
-    public Repository getUrls() {
+    public Repository getDB() {
         return urls;
     }
 
