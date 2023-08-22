@@ -1,5 +1,6 @@
 package com.example.shortURL.domain;
 
+import com.example.shortURL.vo.UrlFields;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
@@ -7,9 +8,6 @@ import java.time.LocalDateTime;
 
 @Entity
 public class Url {
-    private final String BASE_URL = "localhost:8080/";
-    private final int ONE_MONTH = 1;
-    private final int INITIAL_CALL_COUNT = 0;
     @Id
     private final String originUrl;
     private final String newUrl;
@@ -17,16 +15,11 @@ public class Url {
     private int callCount;
 
     public Url(String originUrl, String newKey) {
-        this.newUrl = BASE_URL + newKey;
+        this.newUrl = newKey;
         this.originUrl = originUrl;
-        this.callCount = INITIAL_CALL_COUNT;
+        this.callCount = UrlFields.INITIAL_CALL_COUNT.value;
         setDeleteDate();
     }
-    /*public Url() {
-        this.newUrl = null;
-        this.originUrl = null;
-    }*/
-
 
     public String getOriginUrl() {
         return this.originUrl;
@@ -46,7 +39,7 @@ public class Url {
 
     public void setDeleteDate() {
         LocalDateTime now = LocalDateTime.now();
-        this.deleteDate = now.plusMonths(ONE_MONTH);
+        this.deleteDate = now.plusMonths(UrlFields.ONE_MONTH.value);
     }
 
     public void plusCallCount() {

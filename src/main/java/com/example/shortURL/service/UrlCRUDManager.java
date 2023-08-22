@@ -3,6 +3,7 @@ package com.example.shortURL.service;
 import com.example.shortURL.domain.Url;
 import com.example.shortURL.repository.Repository;
 import com.example.shortURL.repository.UrlsCollection;
+import com.example.shortURL.vo.NewUrl;
 import com.example.shortURL.vo.OriginUrl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -26,6 +27,10 @@ public class UrlCRUDManager {
     public UrlCRUDManager(KeyManager randomKeyManager) {
         this.urls = new UrlsCollection(new ArrayList<>());
         this.keyManager = randomKeyManager;
+    }
+
+    public Repository getUrls() {
+        return urls;
     }
 
     private String changeInputForm(String input) {
@@ -59,7 +64,7 @@ public class UrlCRUDManager {
             key = keyManager.getKey();
         } while (urls.validateDuplication(key));
 
-        return key;
+        return new NewUrl(key).getNewUrl();
     }
 
     public String saveUrl(Url url) {
@@ -74,7 +79,8 @@ public class UrlCRUDManager {
 
 
     public Url readByNewUrl(String newUrl) {
-        return urls.findByNewUrl(newUrl);
+        String target = new NewUrl(newUrl).getNewUrl();
+        return urls.findByNewUrl(target);
     }
 
     @Cacheable(key = "#originUrl")

@@ -1,6 +1,7 @@
 package com.example.shortURL;
 
 import com.example.shortURL.domain.Url;
+import com.example.shortURL.vo.NewUrl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -37,8 +38,9 @@ public class UrlReadTest extends UrlPropertyForTest {
     @DisplayName("Url 새 url로 조회 테스트")
     @Test
     public void Url_새_Url_조회_테스트() {
-        Url testUrl = new Url("test", "testKey");
+        Url testUrl = new Url("test", new NewUrl("testKey").getNewUrl());
+        super.getTestCrudManager().saveUrl(testUrl);
 
-        assertThat(testUrl.getNewUrl()).isEqualTo("localhost:8080/testKey");
+        assertThat("localhost:8080/testKey").isEqualTo(testUrl.getNewUrl());
     }
 }

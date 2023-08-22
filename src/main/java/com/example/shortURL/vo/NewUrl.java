@@ -5,14 +5,17 @@ public class NewUrl {
     private final String newUrl;
 
     public NewUrl(String newUrl) {
-        this.newUrl = changeToUrlForm(newUrl);
+        this.newUrl = plusBaseDomain(newUrl);
     }
 
     public String getNewUrl() {
         return this.newUrl;
     }
 
-    private String changeToUrlForm(String newUrl) {
+    private String plusBaseDomain(String newUrl) {
+        if (newUrl.startsWith(baseDomainName)) {
+            return newUrl;
+        }
         return baseDomainName + newUrl;
     }
 }

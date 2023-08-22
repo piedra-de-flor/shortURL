@@ -10,13 +10,7 @@ import java.io.IOException;
 
 @Service
 public class UrlRedirectManager {
-    private final Repository urls;
-
-    UrlRedirectManager(Repository urls) {
-        this.urls = urls;
-    }
-
-    public void redirect(String newUrl, HttpServletResponse httpServletResponse) throws IOException {
+    public void redirect(String newUrl, HttpServletResponse httpServletResponse, Repository urls) throws IOException {
         String input = new NewUrl(newUrl).getNewUrl();
         Url target = urls.findByNewUrl(input);
         target.plusCallCount();
