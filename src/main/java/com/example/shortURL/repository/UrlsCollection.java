@@ -22,10 +22,10 @@ public class UrlsCollection implements Repository {
     public boolean validateDuplication(String newKey) {
         try {
             findByNewUrl(new NewUrl(newKey).getNewUrl());
-            return false;
-        } catch (Exception e) {
             log.info("info log = {}", "duplication Key");
             return true;
+        } catch (IllegalArgumentException e) {
+            return false;
         }
     }
 
