@@ -22,10 +22,10 @@ public class Url {
         this.callCount = INITIAL_CALL_COUNT;
         setDeleteDate();
     }
-    public Url() {
+    /*public Url() {
         this.newUrl = null;
         this.originUrl = null;
-    }
+    }*/
 
 
     public String getOriginUrl() {
