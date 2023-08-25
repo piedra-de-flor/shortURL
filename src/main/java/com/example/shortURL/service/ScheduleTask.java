@@ -14,11 +14,12 @@ import java.util.List;
 @Component
 public class ScheduleTask {
     private final UrlCRUDManager crudManager;
-    private final Logger log = LoggerFactory.getLogger(getClass());
+    private final Logger log;
 
     @Autowired
-    public ScheduleTask(UrlCRUDManager crudManager) {
+    public ScheduleTask(UrlCRUDManager crudManager, LogService logService) {
         this.crudManager = crudManager;
+        this.log = logService.getLog();
     }
 
     @Scheduled(cron = "59 59 23 * * ?",  zone = "Asia/Seoul")

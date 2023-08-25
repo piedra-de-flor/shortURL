@@ -3,19 +3,19 @@ package com.example.shortURL.repository;
 import com.example.shortURL.domain.Url;
 import com.example.shortURL.vo.NewUrl;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
 
 @Component
-public class UrlsCollection implements Repository {
-    private final Logger log = LoggerFactory.getLogger(getClass());
+public class Urls implements Repository {
+    private final Logger log;
     private final List<Url> urls;
 
-    public UrlsCollection(List<Url> urls) {
+    public Urls(List<Url> urls, Logger log) {
         this.urls = urls;
+        this.log = log;
     }
 
     @Override

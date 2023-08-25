@@ -2,7 +2,7 @@ package com.example.shortURL.service;
 
 import com.example.shortURL.domain.Url;
 import com.example.shortURL.repository.Repository;
-import com.example.shortURL.repository.UrlsCollection;
+import com.example.shortURL.repository.Urls;
 import com.example.shortURL.vo.NewUrl;
 import com.example.shortURL.vo.OriginUrl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +24,8 @@ public class UrlCRUDManager {
     private final KeyManager keyManager;
 
     @Autowired
-    public UrlCRUDManager(KeyManager randomKeyManager) {
-        this.urls = new UrlsCollection(new ArrayList<>());
+    public UrlCRUDManager(KeyManager randomKeyManager, LogService logService) {
+        this.urls = new Urls(new ArrayList<>(), logService.getLog());
         this.keyManager = randomKeyManager;
     }
 

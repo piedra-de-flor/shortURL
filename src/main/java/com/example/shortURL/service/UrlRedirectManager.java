@@ -5,14 +5,19 @@ import com.example.shortURL.repository.Repository;
 import com.example.shortURL.vo.NewUrl;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
 @Service
 public class UrlRedirectManager {
-    private final Logger log = LoggerFactory.getLogger(getClass());
+    private final Logger log;
+
+    @Autowired
+    public UrlRedirectManager(LogService logService) {
+        this.log = logService.getLog();
+    }
     public void redirect(String newUrl, HttpServletResponse httpServletResponse, Repository urls) {
         try {
             String input = new NewUrl(newUrl).getNewUrl();
