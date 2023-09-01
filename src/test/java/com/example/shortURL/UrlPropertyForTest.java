@@ -1,21 +1,21 @@
 package com.example.shortURL;
 
-import com.example.shortURL.controller.UrlCRUDController;
-import com.example.shortURL.service.KeyManager;
+import com.example.shortURL.controller.UrlController;
+import com.example.shortURL.service.KeyMaker;
 import com.example.shortURL.vo.LogVO;
-import com.example.shortURL.service.UrlCRUDManager;
+import com.example.shortURL.service.UrlService;
 
 public class UrlPropertyForTest {
-    private final KeyManager testKeyManager = new KeyManagerForTest();
-    private final UrlCRUDManager testCrudManager = new UrlCRUDManager(testKeyManager, new LogVO());
+    private final KeyMaker testKeyMaker = new KeyMakerForTest();
+    private final UrlService testCrudManager = new UrlService(testKeyMaker, new LogVO());
 
-    private final UrlCRUDController testController = new UrlCRUDController(testCrudManager);
+    private final UrlController testController = new UrlController(testCrudManager);
 
-    public UrlCRUDManager getTestCrudManager() {
+    public UrlService getTestCrudManager() {
         return testCrudManager;
     }
 
-    public UrlCRUDController getTestController() {
+    public UrlController getTestController() {
         return testController;
     }
 }

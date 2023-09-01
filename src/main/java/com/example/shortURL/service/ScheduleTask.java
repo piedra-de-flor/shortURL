@@ -13,11 +13,11 @@ import java.util.List;
 
 @Component
 public class ScheduleTask {
-    private final UrlCRUDManager crudManager;
+    private final UrlService crudManager;
     private final Logger log;
 
     @Autowired
-    public ScheduleTask(UrlCRUDManager crudManager, LogVO logVO) {
+    public ScheduleTask(UrlService crudManager, LogVO logVO) {
         this.crudManager = crudManager;
         this.log = logVO.getLog();
     }

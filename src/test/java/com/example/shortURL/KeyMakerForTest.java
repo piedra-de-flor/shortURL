@@ -1,8 +1,8 @@
 package com.example.shortURL;
 
-import com.example.shortURL.service.KeyManager;
+import com.example.shortURL.service.KeyMaker;
 
-public class KeyManagerForTest implements KeyManager{
+public class KeyMakerForTest implements KeyMaker {
     String testKey;
 
     @Override

@@ -1,6 +1,6 @@
 package com.example.shortURL.service;
 
-public interface KeyManager {
+public interface KeyMaker {
     void makeKey();
     void makeKey(String input);
     String getKey();

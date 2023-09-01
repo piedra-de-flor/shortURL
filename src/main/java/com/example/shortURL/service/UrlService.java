@@ -20,18 +20,18 @@ import java.util.List;
 @Service
 @Transactional
 @CacheConfig(cacheNames = "UrlCache")
-public class UrlCRUDManager {
-    private final Repository urls;
-    private final KeyManager keyManager;
+public class UrlService {
+    private final Repository repository;
+    private final KeyMaker keyMaker;
 
     @Autowired
-    public UrlCRUDManager(KeyManager randomKeyManager, LogVO logVO) {
-        this.urls = new Urls(new ArrayList<>(), logVO.getLog());
-        this.keyManager = randomKeyManager;
+    public UrlService(KeyMaker randomKeyMaker, LogVO logVO) {
+        this.repository = new Urls(new ArrayList<>(), logVO.getLog());
+        this.keyMaker = randomKeyMaker;
     }
 
     public Repository getDB() {
-        return urls;
+        return repository;
     }
 
     private String changeInputForm(String input) {
@@ -45,7 +45,7 @@ public class UrlCRUDManager {
         originUrl = changeInputForm(originUrl);
 
         try {
-            Url urlData = urls.findByOriginUrl(originUrl);
+            Url urlData = repository.findByOriginUrl(originUrl);
             updateUrl(urlData.getOriginUrl());
 
             return urlData;
@@ -61,50 +61,50 @@ public class UrlCRUDManager {
         String key;
 
         do {
-            keyManager.makeKey();
-            key = keyManager.getKey();
-        } while (urls.validateDuplication(key));
+            keyMaker.makeKey();
+            key = keyMaker.getKey();
+        } while (repository.validateDuplication(key));
 
         return new NewUrl(key).getNewUrl();
     }
 
     public String saveUrl(Url url) {
-        urls.save(url);
+        repository.save(url);
 
         return "저장 성공";
     }
 
     public List<Url> readAll() {
-        return urls.findAll();
+        return repository.findAll();
     }
 
 
     public Url readByNewUrl(String newUrl) {
         String target = new NewUrl(newUrl).getNewUrl();
-        return urls.findByNewUrl(target);
+        return repository.findByNewUrl(target);
     }
 
     @Cacheable(key = "#originUrl")
     public Url readByOriginUrl(String originUrl) {
-        return urls.findByOriginUrl(changeInputForm(originUrl));
+        return repository.findByOriginUrl(changeInputForm(originUrl));
     }
 
     @CachePut(key = "#originUrl")
     public Url updateUrl(String originUrl) {
         Url updateUrl = readByOriginUrl(originUrl);
-        urls.update(updateUrl);
+        repository.update(updateUrl);
 
         return updateUrl;
     }
 
     @CacheEvict(key = "#originUrl", beforeInvocation = false)
     public void deleteUrl(String originUrl) {
-        urls.delete(originUrl);
+        repository.delete(originUrl);
     }
 
     @CacheEvict(allEntries = true)
     public void deleteAllUrl() {
-        List<Url> targetList = urls.findAll();
+        List<Url> targetList = repository.findAll();
         targetList.removeAll(targetList);
     }
 }

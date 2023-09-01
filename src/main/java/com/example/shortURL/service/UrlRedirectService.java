@@ -12,11 +12,11 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 
 @Service
-public class UrlRedirectManager {
+public class UrlRedirectService {
     private final Logger log;
 
     @Autowired
-    public UrlRedirectManager(LogVO logVO) {
+    public UrlRedirectService(LogVO logVO) {
         this.log = logVO.getLog();
     }
     public void redirect(String newUrl, HttpServletResponse httpServletResponse, Repository urls) {
