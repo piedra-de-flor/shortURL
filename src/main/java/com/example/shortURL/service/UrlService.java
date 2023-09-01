@@ -6,7 +6,6 @@ import com.example.shortURL.repository.Urls;
 import com.example.shortURL.vo.LogVO;
 import com.example.shortURL.vo.NewUrl;
 import com.example.shortURL.vo.OriginUrl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -24,7 +23,6 @@ public class UrlService {
     private final Repository repository;
     private final KeyMaker keyMaker;
 
-    @Autowired
     public UrlService(KeyMaker randomKeyMaker, LogVO logVO) {
         this.repository = new Urls(new ArrayList<>(), logVO.getLog());
         this.keyMaker = randomKeyMaker;

@@ -6,7 +6,6 @@ import com.example.shortURL.vo.LogVO;
 import com.example.shortURL.vo.NewUrl;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -15,7 +14,6 @@ import java.io.IOException;
 public class UrlRedirectService {
     private final Logger log;
 
-    @Autowired
     public UrlRedirectService(LogVO logVO) {
         this.log = logVO.getLog();
     }

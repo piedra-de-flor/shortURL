@@ -4,7 +4,6 @@ import com.example.shortURL.domain.Url;
 import com.example.shortURL.repository.Repository;
 import com.example.shortURL.vo.LogVO;
 import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +15,6 @@ public class ScheduleTask {
     private final UrlService crudManager;
     private final Logger log;
 
-    @Autowired
     public ScheduleTask(UrlService crudManager, LogVO logVO) {
         this.crudManager = crudManager;
         this.log = logVO.getLog();

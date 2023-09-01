@@ -11,7 +11,6 @@ import java.util.List;
 public class UrlController {
     private final UrlService urlService;
 
-    @Autowired
     public UrlController(UrlService urlService) {
         this.urlService = urlService;
     }

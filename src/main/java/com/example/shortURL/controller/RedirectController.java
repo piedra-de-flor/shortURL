@@ -13,7 +13,6 @@ public class RedirectController {
     private final UrlRedirectService redirectManager;
     private final UrlService urlService;
 
-    @Autowired
     public RedirectController(UrlRedirectService redirectManager, UrlService urlService) {
         this.urlService = urlService;
         this.redirectManager = redirectManager;
