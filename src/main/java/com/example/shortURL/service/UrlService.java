@@ -26,9 +26,9 @@ public class UrlService {
     private final Repository repository;
     private final KeyMaker keyMaker;
 
-    public UrlService(KeyMaker randomKeyMaker, LogVO logVO) {
+    public UrlService(KeyMaker keyMaker, LogVO logVO) {
         this.repository = new RepositoryImpl(new ArrayList<>(), logVO.getLog());
-        this.keyMaker = randomKeyMaker;
+        this.keyMaker = keyMaker;
     }
 
     public Repository getDB() {

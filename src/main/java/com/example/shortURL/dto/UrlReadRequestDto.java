@@ -6,4 +6,8 @@ public class UrlReadRequestDto {
     public UrlReadRequestDto(String input) {
         this.input = input;
     }
+
+    public String getInput() {
+        return input;
+    }
 }

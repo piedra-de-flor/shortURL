@@ -8,4 +8,8 @@ public class UrlSaveRequestDto {
     public UrlSaveRequestDto(String newUrl, String originUrl) {
         this.url = new Url(newUrl, originUrl);
     }
+
+    public Url getUrl() {
+        return url;
+    }
 }

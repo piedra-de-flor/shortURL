@@ -3,6 +3,7 @@ package com.example.shortURL.controller;
 import com.example.shortURL.domain.Url;
 import com.example.shortURL.dto.UrlMakeRequestDto;
 import com.example.shortURL.dto.UrlMakeResponseDto;
+import com.example.shortURL.dto.UrlReadRequestDto;
 import com.example.shortURL.dto.UrlResponseDto;
 import com.example.shortURL.service.UrlService;
 import org.springframework.web.bind.annotation.*;
@@ -38,13 +39,15 @@ public class UrlController {
     }
 
     @GetMapping("/readByNewUrl")
-    public UrlResponseDto readByNewUrl(@RequestParam String url) {
-        return urlService.readByNewUrl(url);
+    public UrlResponseDto readByNewUrl(@RequestParam UrlReadRequestDto readRequestDto) {
+        String input = readRequestDto.getInput();
+        return urlService.readByNewUrl(input);
     }
 
     @GetMapping("/readByOriginUrl")
-    public UrlResponseDto readByOriginUrl(@RequestParam String url) {
-        return urlService.readByOriginUrl(url);
+    public UrlResponseDto readByOriginUrl(@RequestParam UrlReadRequestDto readRequestDto) {
+        String input = readRequestDto.getInput();
+        return urlService.readByOriginUrl(input);
     }
 
     @PostMapping("/delete")

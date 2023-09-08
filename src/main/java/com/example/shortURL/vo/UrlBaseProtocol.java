@@ -12,7 +12,7 @@ public class UrlBaseProtocol {
             result = BASE_PROTOCOL + originUrl;
         }
 
-        this.originUrlWithBaseProtocol = plusW3(result);
+        this.originUrlWithBaseProtocol = changeUrlBaseToLowerCase(plusW3(result));
     }
 
     public String getOriginUrlWithBaseProtocol() {
@@ -32,5 +32,12 @@ public class UrlBaseProtocol {
         }
 
         return BASE_PROTOCOL + WORLD_WIDE_WEB + originDomainName;
+    }
+
+    private String changeUrlBaseToLowerCase(String originUrl) {
+        String urlBase = originUrl.substring(UrlIndexValue.START_INDEX_OF_URL.index, UrlIndexValue.END_INDEX_BEFORE_DOMAIN_NAME.index);
+        String urlDomainName = originUrl.substring(UrlIndexValue.END_INDEX_BEFORE_DOMAIN_NAME.index);
+
+        return urlBase.toLowerCase() + urlDomainName;
     }
 }
