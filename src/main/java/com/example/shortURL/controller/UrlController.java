@@ -1,8 +1,10 @@
 package com.example.shortURL.controller;
 
 import com.example.shortURL.domain.Url;
+import com.example.shortURL.dto.UrlMakeRequestDto;
+import com.example.shortURL.dto.UrlMakeResponseDto;
+import com.example.shortURL.dto.UrlResponseDto;
 import com.example.shortURL.service.UrlService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,8 +18,8 @@ public class UrlController {
     }
 
     @PostMapping("/makeUrl")
-    public String makeUrl(@RequestBody String originUrl) {
-        return urlService.makeUrl(originUrl).getNewUrl();
+    public UrlMakeResponseDto makeUrl(@RequestBody UrlMakeRequestDto urlMakeRequestDto) {
+        return urlService.makeUrl(urlMakeRequestDto);
     }
 
     @PostMapping("/saveUrl")
@@ -26,7 +28,7 @@ public class UrlController {
     }
 
     @PostMapping("/updateUrl")
-    public Url updateUrl(@RequestBody String newUrl) {
+    public UrlResponseDto updateUrl(@RequestBody String newUrl) {
         return urlService.updateUrl(newUrl);
     }
 
@@ -36,12 +38,12 @@ public class UrlController {
     }
 
     @GetMapping("/readByNewUrl")
-    public Url readByNewUrl(@RequestParam String url) {
+    public UrlResponseDto readByNewUrl(@RequestParam String url) {
         return urlService.readByNewUrl(url);
     }
 
     @GetMapping("/readByOriginUrl")
-    public Url readByOriginUrl(@RequestParam String url) {
+    public UrlResponseDto readByOriginUrl(@RequestParam String url) {
         return urlService.readByOriginUrl(url);
     }
 

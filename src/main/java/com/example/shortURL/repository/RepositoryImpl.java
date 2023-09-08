@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-public class Urls implements Repository {
+public class RepositoryImpl implements Repository {
     private final Logger log;
     private final List<Url> urls;
 
-    public Urls(List<Url> urls, Logger log) {
+    public RepositoryImpl(List<Url> urls, Logger log) {
         this.urls = urls;
         this.log = log;
     }

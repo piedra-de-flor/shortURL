@@ -1,6 +1,5 @@
 package com.example.shortURL;
 
-import com.example.shortURL.domain.Url;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -13,9 +12,8 @@ public class UrlCreatTest extends UrlPropertyForTest {
     @ValueSource(strings = { "test.com", "www.test.com", "http://test.com", "http://www.test.com"})
     public void Url_생성_테스트(String input) {
         super.getTestController().makeUrl(input);
-        Url testUrl = super.getTestCrudManager().readByOriginUrl(input);
 
-        assertThat(testUrl).isEqualTo(super.getTestController().readByOriginUrl(input));
+        assertThat(1).isEqualTo(super.getTestCrudManager().getDB().getDataSize());
     }
 
     @DisplayName("Url 중복 생성 테스트")

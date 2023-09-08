@@ -30,7 +30,9 @@ public class UrlReadTest extends UrlPropertyForTest {
     @ParameterizedTest
     @ValueSource(strings = { "test.com", "www.test.com", "http://test.com", "http://www.test.com"})
     public void Url_기존_Url_조회_테스트(String input) {
-        Url testUrl = super.getTestCrudManager().makeUrl(input);
+        super.getTestCrudManager().makeUrl(input);
+        NewUrl target = new NewUrl(input);
+        Url testUrl = super.getTestCrudManager().getDB().findByNewUrl(target.getNewUrl());
 
         assertThat(super.getTestController().readByOriginUrl(input)).isEqualTo(testUrl);
     }

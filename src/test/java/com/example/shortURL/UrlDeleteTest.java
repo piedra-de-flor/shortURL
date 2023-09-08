@@ -34,7 +34,7 @@ public class UrlDeleteTest extends UrlPropertyForTest {
 
         int beforeSize = super.getTestController().readAllUrl().size();
 
-        Url targetUrl = super.getTestController().readByOriginUrl("test1");
+        Url targetUrl = super.getTestCrudManager().getDB().findByOriginUrl("test1");
         super.getTestController().deleteUrl(targetUrl.getOriginUrl());
 
         int afterSize = super.getTestController().readAllUrl().size();

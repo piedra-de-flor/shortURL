@@ -1,8 +1,11 @@
 package com.example.shortURL.service;
 
 import com.example.shortURL.domain.Url;
+import com.example.shortURL.dto.UrlMakeRequestDto;
+import com.example.shortURL.dto.UrlMakeResponseDto;
+import com.example.shortURL.dto.UrlResponseDto;
 import com.example.shortURL.repository.Repository;
-import com.example.shortURL.repository.Urls;
+import com.example.shortURL.repository.RepositoryImpl;
 import com.example.shortURL.vo.LogVO;
 import com.example.shortURL.vo.NewUrl;
 import com.example.shortURL.vo.OriginUrl;
@@ -24,7 +27,7 @@ public class UrlService {
     private final KeyMaker keyMaker;
 
     public UrlService(KeyMaker randomKeyMaker, LogVO logVO) {
-        this.repository = new Urls(new ArrayList<>(), logVO.getLog());
+        this.repository = new RepositoryImpl(new ArrayList<>(), logVO.getLog());
         this.keyMaker = randomKeyMaker;
     }
 
@@ -39,19 +42,19 @@ public class UrlService {
     }
 
     @Cacheable(key = "#originUrl")
-    public Url makeUrl(String originUrl) {
-        originUrl = changeInputForm(originUrl);
+    public UrlMakeResponseDto makeUrl(UrlMakeRequestDto urlMakeRequestDto) {
+        String originUrl = changeInputForm(urlMakeRequestDto.getOriginUrl());
 
         try {
             Url urlData = repository.findByOriginUrl(originUrl);
             updateUrl(urlData.getOriginUrl());
 
-            return urlData;
+            return new UrlMakeResponseDto(urlData);
         } catch (IllegalArgumentException e) {
             Url newUrl = new Url(originUrl, makeKey());
             saveUrl(newUrl);
 
-            return newUrl;
+            return new UrlMakeResponseDto(newUrl);
         }
     }
 
@@ -77,22 +80,23 @@ public class UrlService {
     }
 
 
-    public Url readByNewUrl(String newUrl) {
+    public UrlResponseDto readByNewUrl(String newUrl) {
         String target = new NewUrl(newUrl).getNewUrl();
-        return repository.findByNewUrl(target);
+        return new UrlResponseDto(repository.findByNewUrl(target));
     }
 
     @Cacheable(key = "#originUrl")
-    public Url readByOriginUrl(String originUrl) {
-        return repository.findByOriginUrl(changeInputForm(originUrl));
+    public UrlResponseDto readByOriginUrl(String originUrl) {
+        Url result = repository.findByOriginUrl(changeInputForm(originUrl));
+        return new UrlResponseDto(result);
     }
 
     @CachePut(key = "#originUrl")
-    public Url updateUrl(String originUrl) {
-        Url updateUrl = readByOriginUrl(originUrl);
+    public UrlResponseDto updateUrl(String originUrl) {
+        Url updateUrl = repository.findByOriginUrl(changeInputForm(originUrl));
         repository.update(updateUrl);
 
-        return updateUrl;
+        return new UrlResponseDto(updateUrl);
     }
 
     @CacheEvict(key = "#originUrl", beforeInvocation = false)

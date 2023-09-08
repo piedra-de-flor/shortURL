@@ -33,10 +33,6 @@ public class Url {
         return deleteDate;
     }
 
-    public int getCallCount() {
-        return callCount;
-    }
-
     public void setDeleteDate() {
         LocalDateTime now = LocalDateTime.now();
         this.deleteDate = now.plusMonths(UrlFields.ONE_MONTH.value);
