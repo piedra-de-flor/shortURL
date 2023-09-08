@@ -3,12 +3,14 @@ package com.example.shortURL.service;
 import com.example.shortURL.domain.Url;
 import com.example.shortURL.dto.UrlMakeRequestDto;
 import com.example.shortURL.dto.UrlMakeResponseDto;
+import com.example.shortURL.dto.UrlReadRequestDto;
 import com.example.shortURL.dto.UrlResponseDto;
 import com.example.shortURL.repository.Repository;
 import com.example.shortURL.repository.RepositoryImpl;
 import com.example.shortURL.vo.LogVO;
 import com.example.shortURL.vo.NewUrl;
 import com.example.shortURL.vo.OriginUrl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -35,7 +37,7 @@ public class UrlService {
         return repository;
     }
 
-    private String changeInputForm(String input) {
+    private String NormalizeOriginUrlForm(String input) {
         OriginUrl originUrlVO = new OriginUrl(input);
 
         return originUrlVO.getOriginUrl();
@@ -43,7 +45,7 @@ public class UrlService {
 
     @Cacheable(key = "#originUrl")
     public UrlMakeResponseDto makeUrl(UrlMakeRequestDto urlMakeRequestDto) {
-        String originUrl = changeInputForm(urlMakeRequestDto.getOriginUrl());
+        String originUrl = NormalizeOriginUrlForm(urlMakeRequestDto.getOriginUrl());
 
         try {
             Url urlData = repository.findByOriginUrl(originUrl);
@@ -80,20 +82,21 @@ public class UrlService {
     }
 
 
-    public UrlResponseDto readByNewUrl(String newUrl) {
-        String target = new NewUrl(newUrl).getNewUrl();
+    public UrlResponseDto readByNewUrl(UrlReadRequestDto readRequestDto) {
+        NewUrl newUrl = new NewUrl(readRequestDto.getInput());
+        String target = newUrl.getNewUrl();
         return new UrlResponseDto(repository.findByNewUrl(target));
     }
 
     @Cacheable(key = "#originUrl")
-    public UrlResponseDto readByOriginUrl(String originUrl) {
-        Url result = repository.findByOriginUrl(changeInputForm(originUrl));
-        return new UrlResponseDto(result);
+    public UrlResponseDto readByOriginUrl(UrlReadRequestDto readRequestDto) {
+        String target = NormalizeOriginUrlForm(readRequestDto.getInput());
+        return new UrlResponseDto(repository.findByOriginUrl(target));
     }
 
     @CachePut(key = "#originUrl")
     public UrlResponseDto updateUrl(String originUrl) {
-        Url updateUrl = repository.findByOriginUrl(changeInputForm(originUrl));
+        Url updateUrl = repository.findByOriginUrl(NormalizeOriginUrlForm(originUrl));
         repository.update(updateUrl);
 
         return new UrlResponseDto(updateUrl);

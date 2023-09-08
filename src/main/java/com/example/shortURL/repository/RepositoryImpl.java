@@ -3,12 +3,10 @@ package com.example.shortURL.repository;
 import com.example.shortURL.domain.Url;
 import com.example.shortURL.vo.NewUrl;
 import org.slf4j.Logger;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
 
-@Component
 public class RepositoryImpl implements Repository {
     private final Logger log;
     private final List<Url> urls;

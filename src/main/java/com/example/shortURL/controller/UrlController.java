@@ -40,14 +40,12 @@ public class UrlController {
 
     @GetMapping("/readByNewUrl")
     public UrlResponseDto readByNewUrl(@RequestParam UrlReadRequestDto readRequestDto) {
-        String input = readRequestDto.getInput();
-        return urlService.readByNewUrl(input);
+        return urlService.readByNewUrl(readRequestDto);
     }
 
     @GetMapping("/readByOriginUrl")
     public UrlResponseDto readByOriginUrl(@RequestParam UrlReadRequestDto readRequestDto) {
-        String input = readRequestDto.getInput();
-        return urlService.readByOriginUrl(input);
+        return urlService.readByOriginUrl(readRequestDto);
     }
 
     @PostMapping("/delete")
