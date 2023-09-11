@@ -7,10 +7,9 @@ import com.example.shortURL.dto.UrlReadRequestDto;
 import com.example.shortURL.dto.UrlResponseDto;
 import com.example.shortURL.repository.Repository;
 import com.example.shortURL.repository.RepositoryImpl;
-import com.example.shortURL.vo.LogVO;
 import com.example.shortURL.vo.NewUrl;
 import com.example.shortURL.vo.OriginUrl;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -28,8 +27,8 @@ public class UrlService {
     private final Repository repository;
     private final KeyMaker keyMaker;
 
-    public UrlService(KeyMaker keyMaker, LogVO logVO) {
-        this.repository = new RepositoryImpl(new ArrayList<>(), logVO.getLog());
+    public UrlService(KeyMaker keyMaker, Logger log) {
+        this.repository = new RepositoryImpl(new ArrayList<>(), log);
         this.keyMaker = keyMaker;
     }
 
@@ -43,9 +42,9 @@ public class UrlService {
         return originUrlVO.getOriginUrl();
     }
 
-    @Cacheable(key = "#originUrl")
+    @Cacheable(key = "#urlMakeRequestDto.originUrl")
     public UrlMakeResponseDto makeUrl(UrlMakeRequestDto urlMakeRequestDto) {
-        String originUrl = NormalizeOriginUrlForm(urlMakeRequestDto.getOriginUrl());
+        String originUrl = urlMakeRequestDto.getOriginUrl();
 
         try {
             Url urlData = repository.findByOriginUrl(originUrl);
@@ -88,7 +87,7 @@ public class UrlService {
         return new UrlResponseDto(repository.findByNewUrl(target));
     }
 
-    @Cacheable(key = "#originUrl")
+    @Cacheable(key = "#readRequestDto.input")
     public UrlResponseDto readByOriginUrl(UrlReadRequestDto readRequestDto) {
         String target = NormalizeOriginUrlForm(readRequestDto.getInput());
         return new UrlResponseDto(repository.findByOriginUrl(target));

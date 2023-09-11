@@ -33,7 +33,7 @@ public class Url {
         return deleteDate;
     }
 
-    public void setDeleteDate() {
+    private void setDeleteDate() {
         LocalDateTime now = LocalDateTime.now();
         this.deleteDate = now.plusMonths(UrlFields.ONE_MONTH.value);
     }

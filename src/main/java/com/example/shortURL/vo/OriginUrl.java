@@ -1,8 +1,10 @@
 package com.example.shortURL.vo;
 
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.URL;
+import org.apache.commons.validator.routines.UrlValidator;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.web.client.RestTemplate;
 
 public class OriginUrl {
     private final String originUrl;
@@ -31,10 +33,19 @@ public class OriginUrl {
     }
 
     private boolean isValidUrl(String url) {
+        String[] schemes = {"http", "https"};
+        UrlValidator urlValidator = new UrlValidator(schemes);
+        return urlValidator.isValid(url) && isValidConnection(url);
+    }
+
+    private boolean isValidConnection(String url) {
+        RestTemplate restTemplate = new RestTemplate();
+
         try {
-            new URL(url).toURI();
-            return true;
-        } catch (URISyntaxException | MalformedURLException exception) {
+            ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+            HttpStatusCode httpStatus = responseEntity.getStatusCode();
+            return httpStatus.is2xxSuccessful();
+        } catch (HttpStatusCodeException e) {
             return false;
         }
     }

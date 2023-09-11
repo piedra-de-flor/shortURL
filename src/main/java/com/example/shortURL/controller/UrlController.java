@@ -44,7 +44,8 @@ public class UrlController {
     }
 
     @GetMapping("/readByOriginUrl")
-    public UrlResponseDto readByOriginUrl(@RequestParam UrlReadRequestDto readRequestDto) {
+    public UrlResponseDto readByOriginUrl(@RequestParam String input) {
+        UrlReadRequestDto readRequestDto = new UrlReadRequestDto(input);
         return urlService.readByOriginUrl(readRequestDto);
     }
 

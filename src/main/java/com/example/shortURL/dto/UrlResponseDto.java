@@ -10,4 +10,12 @@ public class UrlResponseDto {
         this.originUrl = url.getOriginUrl();
         this.newUrl = url.getNewUrl();
     }
+
+    public String getOriginUrl() {
+        return originUrl;
+    }
+
+    public String getNewUrl() {
+        return newUrl;
+    }
 }

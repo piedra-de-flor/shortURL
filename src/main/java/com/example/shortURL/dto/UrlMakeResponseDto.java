@@ -8,4 +8,8 @@ public class UrlMakeResponseDto {
     public UrlMakeResponseDto(Url url) {
         this.newUrl = url.getNewUrl();
     }
+
+    public String getNewUrl() {
+        return newUrl;
+    }
 }

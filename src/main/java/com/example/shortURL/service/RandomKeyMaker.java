@@ -13,16 +13,16 @@ public class RandomKeyMaker implements KeyMaker {
 
     @Override
     public void makeKey() {
-        randomKey = random.ints(AsciiCodeIndexForRandomString.NUMBER_START_IN_ASCII_CODE.index, AsciiCodeIndexForRandomString.LOWER_ALPHABET_LIMIT_IN_ASCII_CODE.index)
+        randomKey = levelingKey(random.ints(AsciiCodeIndexForRandomString.NUMBER_START_IN_ASCII_CODE.index, AsciiCodeIndexForRandomString.LOWER_ALPHABET_LIMIT_IN_ASCII_CODE.index)
                 .filter(i -> (i <= AsciiCodeIndexForRandomString.NUMBER_LIMIT_IN_ASCII_CODE.index || i >= AsciiCodeIndexForRandomString.UPPER_ALPHABET_START_IN_ASCII_CODE.index)
                         && (i <= AsciiCodeIndexForRandomString.UPPER_ALPHABET_LIMIT_IN_ASCII_CODE.index || i >= AsciiCodeIndexForRandomString.LOWER_ALPHABET_START_IN_ASCII_CODE.index))
                 .limit(KEY_LENGTH)
                 .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                .toString();
+                .toString());
     }
 
-    @Override
-    public void makeKey(String input) {
+    private String levelingKey(String randomKey) {
+        return randomKey.replaceAll("/[il]/g", "1");
     }
 
     public String getKey() {

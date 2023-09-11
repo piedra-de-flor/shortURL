@@ -3,9 +3,9 @@ package com.example.shortURL.dto;
 import com.example.shortURL.domain.Url;
 
 public class UrlSaveRequestDto {
-    private final Url url;
+    private Url url;
 
-    public UrlSaveRequestDto(String newUrl, String originUrl) {
+    public void setUrl(String newUrl, String originUrl) {
         this.url = new Url(newUrl, originUrl);
     }
 

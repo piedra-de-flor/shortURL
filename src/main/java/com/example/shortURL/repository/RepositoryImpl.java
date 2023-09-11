@@ -52,6 +52,7 @@ public class RepositoryImpl implements Repository {
 
     private Url checkFindUrlIsPresent(Optional<Url> resultForFind) {
         if (resultForFind.isPresent()) {
+            log.info("info log = {}", "database access");
             return resultForFind.get();
         }
         log.warn("warn log = {}", "there is no equal data in DB");
@@ -67,8 +68,8 @@ public class RepositoryImpl implements Repository {
     public void update(Url updateUrl) {
         Url target = findByOriginUrl(updateUrl.getOriginUrl());
         int targetIndex = urls.indexOf(target);
-        updateUrl.setDeleteDate();
-        urls.set(targetIndex, updateUrl);
+        Url newUrl = new Url(target.getOriginUrl(), target.getNewUrl());
+        urls.set(targetIndex, newUrl);
     }
 
     @Override

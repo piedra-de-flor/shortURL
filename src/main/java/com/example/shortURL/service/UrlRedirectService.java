@@ -2,7 +2,6 @@ package com.example.shortURL.service;
 
 import com.example.shortURL.domain.Url;
 import com.example.shortURL.repository.Repository;
-import com.example.shortURL.vo.LogVO;
 import com.example.shortURL.vo.NewUrl;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
@@ -14,8 +13,8 @@ import java.io.IOException;
 public class UrlRedirectService {
     private final Logger log;
 
-    public UrlRedirectService(LogVO logVO) {
-        this.log = logVO.getLog();
+    public UrlRedirectService(Logger log) {
+        this.log = log;
     }
     public void redirect(String newUrl, HttpServletResponse httpServletResponse, Repository urls) {
         try {

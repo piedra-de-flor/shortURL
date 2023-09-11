@@ -1,13 +1,15 @@
 package com.example.shortURL.dto;
 
-public class UrlMakeRequestDto {
-    private final String originUrl;
+import com.example.shortURL.vo.OriginUrl;
 
-    public UrlMakeRequestDto(String input) {
-        this.originUrl = input;
+public class UrlMakeRequestDto {
+    private OriginUrl originUrl;
+
+    public void setOriginUrl(String originUrl) {
+        this.originUrl = new OriginUrl(originUrl);
     }
 
     public String getOriginUrl() {
-        return originUrl;
+        return originUrl.getOriginUrl();
     }
 }
