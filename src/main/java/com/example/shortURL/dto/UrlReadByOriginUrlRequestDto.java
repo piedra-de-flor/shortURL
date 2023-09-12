@@ -1,10 +1,10 @@
 package com.example.shortURL.dto;
 
-public class UrlMakeRequestDto {
+public class UrlReadByOriginUrlRequestDto {
     private String originUrl;
 
-    public void setOriginUrl(String originUrl) {
-        this.originUrl = originUrl;
+    public void setOriginUrl(String url) {
+        this.originUrl = url;
     }
 
     public String getOriginUrl() {
