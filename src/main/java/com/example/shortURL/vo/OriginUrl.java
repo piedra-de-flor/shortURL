@@ -1,12 +1,18 @@
 package com.example.shortURL.vo;
 
 import org.apache.commons.validator.routines.UrlValidator;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMessage;
+import org.springframework.http.HttpMethod;
+import org.springframework.web.client.ResponseExtractor;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
+
 public class OriginUrl {
+    private static final int HTTP_STATUS_CODE_OK = 200;
+    private static final int HTTP_STATUS_CODE_ERROR = 400;
+    private static final int HTTP_STATUS_CODE_INDEX = 0;
     private final String originUrl;
 
     public OriginUrl(String originUrl) {
@@ -35,19 +41,20 @@ public class OriginUrl {
     private boolean isValidUrl(String url) {
         String[] schemes = {"http", "https"};
         UrlValidator urlValidator = new UrlValidator(schemes);
-        return urlValidator.isValid(url) && isValidConnection(url);
+        return urlValidator.isValid(url) && isUrlExists(url);
     }
 
-    private boolean isValidConnection(String url) {
+    public boolean isUrlExists(String url) {
         RestTemplate restTemplate = new RestTemplate();
 
-        try {
-            ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
-            HttpStatusCode httpStatus = responseEntity.getStatusCode();
-            return httpStatus.is2xxSuccessful();
-        } catch (HttpStatusCodeException e) {
-            return false;
-        }
+        HttpHeaders headers = restTemplate.execute(url, HttpMethod.HEAD, null,
+                (ResponseExtractor<HttpHeaders>) HttpMessage::getHeaders);
+
+        List<String> httpStatusCode = headers.get("HttpStatus");
+        String statusValue = httpStatusCode.get(HTTP_STATUS_CODE_INDEX);
+        int statusCode = Integer.parseInt(statusValue);
+
+        return statusCode >= HTTP_STATUS_CODE_OK && statusCode < HTTP_STATUS_CODE_ERROR;
     }
 }
 
