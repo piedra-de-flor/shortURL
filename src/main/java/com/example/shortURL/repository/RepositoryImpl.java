@@ -60,6 +60,15 @@ public class RepositoryImpl implements Repository {
     }
 
     @Override
+    public boolean isExist(String originUrl) {
+        Optional<Url> result = urls.stream()
+                .filter(url -> url.getOriginUrl().equals(originUrl))
+                .findAny();
+
+        return result.isPresent();
+    }
+
+    @Override
     public void save(Url url) {
         urls.add(url);
     }

@@ -10,7 +10,7 @@ public interface Repository {
     Url findByNewUrl(String newUrl);
 
     Url findByOriginUrl(String originUrl);
-
+    boolean isExist(String originUrl);
     void save(Url url);
     void update(Url url);
     void delete(String url);

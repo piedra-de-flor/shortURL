@@ -41,18 +41,23 @@ public class UrlService {
     @Cacheable(key = "#urlMakeRequestDto.originUrl")
     public UrlMakeResponseDto makeUrl(UrlMakeRequestDto urlMakeRequestDto) {
         String originUrl = normalizeOriginUrl(urlMakeRequestDto.getOriginUrl());
+        UrlMakeResponseDto urlMakeResponseDto = new UrlMakeResponseDto(makeNewUrl(originUrl));
 
-        try {
+        if (repository.isExist(originUrl)) {
             Url urlData = repository.findByOriginUrl(originUrl);
             updateUrl(urlData.getOriginUrl());
 
-            return new UrlMakeResponseDto(urlData);
-        } catch (IllegalArgumentException e) {
-            Url newUrl = new Url(originUrl, makeKey());
-            saveUrl(newUrl);
-
-            return new UrlMakeResponseDto(newUrl);
+            urlMakeResponseDto = new UrlMakeResponseDto(urlData);
         }
+
+        return urlMakeResponseDto;
+    }
+
+    private Url makeNewUrl(String originUrl) {
+        Url newUrl = new Url(originUrl, makeKey());
+        saveUrl(newUrl);
+
+        return newUrl;
     }
 
     private String makeKey() {
