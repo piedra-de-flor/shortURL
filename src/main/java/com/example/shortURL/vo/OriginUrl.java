@@ -1,13 +1,6 @@
 package com.example.shortURL.vo;
 
 import org.apache.commons.validator.routines.UrlValidator;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMessage;
-import org.springframework.http.HttpMethod;
-import org.springframework.web.client.ResponseExtractor;
-import org.springframework.web.client.RestTemplate;
-
-import java.util.List;
 
 public class OriginUrl {
     private static final int HTTP_STATUS_CODE_OK = 200;
@@ -41,10 +34,10 @@ public class OriginUrl {
     private boolean isValidUrl(String url) {
         String[] schemes = {"http", "https"};
         UrlValidator urlValidator = new UrlValidator(schemes);
-        return urlValidator.isValid(url) && isUrlExists(url);
+        return urlValidator.isValid(url); //&& isUrlExists(url);
     }
 
-    public boolean isUrlExists(String url) {
+    /*public boolean isUrlExists(String url) {
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = restTemplate.execute(url, HttpMethod.HEAD, null,
@@ -55,6 +48,6 @@ public class OriginUrl {
         int statusCode = Integer.parseInt(statusValue);
 
         return statusCode >= HTTP_STATUS_CODE_OK && statusCode < HTTP_STATUS_CODE_ERROR;
-    }
+    }*/
 }
 

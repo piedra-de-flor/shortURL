@@ -1,7 +1,8 @@
-package com.example.shortURL.service;
+package com.example.shortURL.batch;
 
 import com.example.shortURL.domain.Url;
 import com.example.shortURL.repository.Repository;
+import com.example.shortURL.service.UrlService;
 import org.slf4j.Logger;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -23,7 +24,7 @@ public class ScheduleTask {
     public void deleteExpirationDateUrl() {
         log.info("info log = {}", "Schedule task proceed");
         LocalDateTime now = LocalDateTime.now();
-        List<Url> targets = crudManager.readAll()
+        List<Url> targets = crudManager.readAll().getUrls()
                 .stream()
                 .filter(url -> url.getDeleteDate().isBefore(now))
                 .toList();

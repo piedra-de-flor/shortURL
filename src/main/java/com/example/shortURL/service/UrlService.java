@@ -41,16 +41,17 @@ public class UrlService {
     @Cacheable(key = "#urlMakeRequestDto.originUrl")
     public UrlMakeResponseDto makeUrl(UrlMakeRequestDto urlMakeRequestDto) {
         String originUrl = normalizeOriginUrl(urlMakeRequestDto.getOriginUrl());
-        UrlMakeResponseDto urlMakeResponseDto = new UrlMakeResponseDto(makeNewUrl(originUrl));
 
         if (repository.isExist(originUrl)) {
             Url urlData = repository.findByOriginUrl(originUrl);
-            updateUrl(urlData.getOriginUrl());
+            UrlUpdateRequestDto urlUpdateRequestDto = new UrlUpdateRequestDto();
+            urlUpdateRequestDto.setOriginUrl(urlData.getOriginUrl());
+            updateUrl(urlUpdateRequestDto);
 
-            urlMakeResponseDto = new UrlMakeResponseDto(urlData);
+            return new UrlMakeResponseDto(urlData);
         }
 
-        return urlMakeResponseDto;
+        return new UrlMakeResponseDto(makeNewUrl(originUrl));
     }
 
     private Url makeNewUrl(String originUrl) {
@@ -77,8 +78,8 @@ public class UrlService {
         return "저장 성공";
     }
 
-    public List<Url> readAll() {
-        return repository.findAll();
+    public UrlReadAllResponseDto readAll() {
+        return new UrlReadAllResponseDto(repository.findAll());
     }
 
 
@@ -94,9 +95,9 @@ public class UrlService {
         return new UrlResponseDto(repository.findByOriginUrl(target));
     }
 
-    @CachePut(key = "#originUrl")
-    public UrlResponseDto updateUrl(String originUrl) {
-        Url updateUrl = repository.findByOriginUrl(originUrl);
+    @CachePut(key = "#urlUpdateRequestDto.originUrl")
+    public UrlResponseDto updateUrl(UrlUpdateRequestDto urlUpdateRequestDto) {
+        Url updateUrl = repository.findByOriginUrl(urlUpdateRequestDto.getOriginUrl());
         repository.update(updateUrl);
 
         return new UrlResponseDto(updateUrl);

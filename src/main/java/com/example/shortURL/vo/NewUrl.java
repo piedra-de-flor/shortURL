@@ -1,7 +1,7 @@
 package com.example.shortURL.vo;
 
 public class NewUrl {
-    private final String baseDomainName = "localhost:8080/";
+    private final BaseDomainName baseDomainName = new BaseDomainName();
     private final String newUrl;
 
     public NewUrl(String newUrl) {
@@ -13,9 +13,9 @@ public class NewUrl {
     }
 
     private String plusBaseDomain(String newUrl) {
-        if (newUrl.startsWith(baseDomainName)) {
+        if (newUrl.startsWith(baseDomainName.getDomain())) {
             return newUrl;
         }
-        return baseDomainName + newUrl;
+        return baseDomainName.getDomain() + newUrl;
     }
 }

@@ -1,7 +1,9 @@
 package com.example.shortURL;
 
 import com.example.shortURL.domain.Url;
+import com.example.shortURL.dto.UrlReadByOriginUrlRequestDto;
 import com.example.shortURL.vo.NewUrl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -12,35 +14,42 @@ import java.util.List;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class UrlReadTest extends UrlPropertyForTest {
+    @BeforeEach
+    public void setUp() {
+        super.getTestCrudManager().deleteAllUrl();
+    }
+
     @DisplayName("Url 전체 조회 테스트")
     @Test
     public void Url_전체_조회_테스트() {
-        super.getTestController().makeUrl("testUrl0");
-        super.getTestController().makeUrl("testUrl1");
-        super.getTestController().makeUrl("testUrl2");
+        super.makeTestUrl("naver.com");
+        super.makeTestUrl("google.com");
+        super.makeTestUrl("daum.com");
+        List<Url> realUrls = super.getTestController().readAllUrl().getUrls();
 
-        List<Url> realUrls = super.getTestController().readAllUrl();
+        String[] urls = new String[] {"naver.com", "google.com", "daum.com"};
 
         for (int i = 0; i < realUrls.size(); i++) {
-            assertThat(realUrls.get(i).getOriginUrl()).isEqualTo("http://www.testUrl" + i);
+            assertThat(realUrls.get(i).getOriginUrl()).isEqualTo("http://www." + urls[i]);
         }
     }
 
     @DisplayName("Url 기존 url로 조회 테스트")
     @ParameterizedTest
-    @ValueSource(strings = { "test.com", "www.test.com", "http://test.com", "http://www.test.com"})
+    @ValueSource(strings = { "naver.com", "www.naver.com", "http://naver.com", "http://www.naver.com"})
     public void Url_기존_Url_조회_테스트(String input) {
-        //super.getTestCrudManager().makeUrl(input);
-        NewUrl target = new NewUrl(input);
-        Url testUrl = super.getTestCrudManager().getDB().findByNewUrl(target.getNewUrl());
+        super.makeTestUrl(input);
 
-        //assertThat(super.getTestController().readByOriginUrl(input)).isEqualTo(testUrl);
+        UrlReadByOriginUrlRequestDto readByOriginUrlRequestDto = new UrlReadByOriginUrlRequestDto();
+        readByOriginUrlRequestDto.setOriginUrl(input);
+
+        assertThat(super.getTestController().readByOriginUrl(readByOriginUrlRequestDto).getOriginUrl()).isEqualTo("http://www.naver.com");
     }
 
     @DisplayName("Url 새 url로 조회 테스트")
     @Test
     public void Url_새_Url_조회_테스트() {
-        Url testUrl = new Url("test", new NewUrl("testKey").getNewUrl());
+        Url testUrl = new Url("naver.com", new NewUrl("testKey").getNewUrl());
         super.getTestCrudManager().saveUrl(testUrl);
 
         assertThat("localhost:8080/testKey").isEqualTo(testUrl.getNewUrl());

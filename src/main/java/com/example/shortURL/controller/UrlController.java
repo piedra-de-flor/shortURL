@@ -5,8 +5,6 @@ import com.example.shortURL.dto.*;
 import com.example.shortURL.service.UrlService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 public class UrlController {
     private final UrlService urlService;
@@ -15,42 +13,42 @@ public class UrlController {
         this.urlService = urlService;
     }
 
-    @PostMapping("/makeUrl")
+    @PostMapping("/originUrl")
     public UrlMakeResponseDto makeUrl(@RequestBody UrlMakeRequestDto urlMakeRequestDto) {
         return urlService.makeUrl(urlMakeRequestDto);
     }
 
-    @PostMapping("/saveUrl")
+    @PostMapping("/url")
     public String saveUrl(@RequestBody Url saveUrl) {
         return urlService.saveUrl(saveUrl);
     }
 
-    @PutMapping("/updateUrl")
-    public UrlResponseDto updateUrl(@RequestBody String newUrl) {
-        return urlService.updateUrl(newUrl);
+    @PutMapping("/originUrl")
+    public UrlResponseDto updateUrl(@RequestBody UrlUpdateRequestDto urlUpdateRequestDto) {
+        return urlService.updateUrl(urlUpdateRequestDto);
     }
 
-    @GetMapping("/readAll")
-    public List<Url> readAllUrl() {
+    @GetMapping("/All")
+    public UrlReadAllResponseDto readAllUrl() {
         return urlService.readAll();
     }
 
-    @GetMapping("/readByNewUrl")
+    @GetMapping("/NewUrl")
     public UrlResponseDto readByNewUrl(@RequestParam UrlReadByNewUrlRequestDto readRequestDto) {
         return urlService.readByNewUrl(readRequestDto);
     }
 
-    @GetMapping("/readByOriginUrl")
+    @GetMapping("/OriginUrl")
     public UrlResponseDto readByOriginUrl(@RequestParam UrlReadByOriginUrlRequestDto readRequestDto) {
         return urlService.readByOriginUrl(readRequestDto);
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/originUrl")
     public void deleteUrl(@RequestBody String originUrl) {
         urlService.deleteUrl(originUrl);
     }
 
-    @DeleteMapping("/deleteAll")
+    @DeleteMapping("/All")
     public void deleteUrl() {
         urlService.deleteAllUrl();
     }

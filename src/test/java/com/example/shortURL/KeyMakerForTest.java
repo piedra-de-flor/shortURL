@@ -4,10 +4,10 @@ import com.example.shortURL.service.KeyMaker;
 
 public class KeyMakerForTest implements KeyMaker {
     String testKey;
-
     @Override
     public void makeKey() {
-        testKey = "testKey";
+        double random = Math.random();
+        testKey = "testKey" + random;
     }
 
     public void makeKey(String input) {
