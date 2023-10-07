@@ -46,7 +46,6 @@ public class OriginUrl {
 
         HttpGet httpGet = new HttpGet(url);
 
-        httpGet.addHeader("User-Agent", "test");
         httpGet.addHeader("Content-type", "application/json");
 
         try {
