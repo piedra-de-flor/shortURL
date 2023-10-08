@@ -12,6 +12,7 @@ public interface Repository {
     Url findByNewUrl(String newUrl);
 
     Url findByOriginUrl(String originUrl);
+    Url findById(int id);
 
     boolean isExist(String originUrl);
 

@@ -51,6 +51,15 @@ public class RepositoryImpl implements Repository {
         return checkFindUrlIsPresent(result);
     }
 
+    @Override
+    public Url findById(int id) {
+        Optional<Url> result = urls.stream()
+                .filter(url -> url.getId() == id)
+                .findAny();
+
+        return checkFindUrlIsPresent(result);
+    }
+
     private Url checkFindUrlIsPresent(Optional<Url> resultForFind) {
         if (resultForFind.isPresent()) {
             log.info("info log = {}", "database access");

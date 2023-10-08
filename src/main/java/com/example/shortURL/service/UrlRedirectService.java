@@ -16,10 +16,10 @@ public class UrlRedirectService {
     public UrlRedirectService(Logger log) {
         this.log = log;
     }
-    public void redirect(String newUrl, HttpServletResponse httpServletResponse, Repository urls) {
+    public void redirect(String newUrl, HttpServletResponse httpServletResponse, Repository urls, KeyMaker keyMaker) {
         try {
-            String input = new NewUrl(newUrl).getNewUrl();
-            Url target = urls.findByNewUrl(input);
+            String encodingKey = new NewUrl(newUrl).getKey();
+            Url target = urls.findById(keyMaker.decodeKey(encodingKey));
             target.plusCallCount();
             httpServletResponse.sendRedirect(target.getOriginUrl());
         } catch (IOException e) {

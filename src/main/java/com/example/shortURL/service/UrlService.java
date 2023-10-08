@@ -33,6 +33,10 @@ public class UrlService {
         return repository;
     }
 
+    public KeyMaker getKeyMaker() {
+        return keyMaker;
+    }
+
     private String normalizeOriginUrl(String url) {
         OriginUrl originUrl = new OriginUrl(url);
         return originUrl.getOriginUrl();

@@ -11,6 +11,11 @@ public class KeyMakerForTest implements KeyMaker {
         return testKey;
     }
 
+    @Override
+    public int decodeKey(String newUrl) {
+        return 0;
+    }
+
     public void makeKey(String input) {
         testKey = "testKey";
     }

@@ -18,6 +18,6 @@ public class RedirectController {
     }
     @GetMapping("/{newUrl}")
     public void redirectUrl(@PathVariable String newUrl, HttpServletResponse httpServletResponse) {
-        redirectManager.redirect(newUrl, httpServletResponse, urlService.getDB());
+        redirectManager.redirect(newUrl, httpServletResponse, urlService.getDB(), urlService.getKeyMaker());
     }
 }
