@@ -2,6 +2,7 @@ package com.example.shortURL.repository;
 
 import com.example.shortURL.domain.Url;
 import com.example.shortURL.vo.NewUrl;
+import com.example.shortURL.vo.UrlID;
 import org.slf4j.Logger;
 
 import java.util.List;
@@ -90,5 +91,10 @@ public class RepositoryImpl implements Repository {
     @Override
     public int getDataSize() {
         return urls.size();
+    }
+
+    @Override
+    public int getId() {
+        return UrlID.getInstance().getId();
     }
 }

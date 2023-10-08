@@ -1,6 +1,5 @@
 package com.example.shortURL.service;
 
 public interface KeyMaker {
-    void makeKey();
-    String getKey();
+    String makeKey(int id);
 }

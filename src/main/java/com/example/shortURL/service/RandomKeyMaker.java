@@ -1,31 +1,34 @@
 package com.example.shortURL.service;
 
-import com.example.shortURL.vo.AsciiCodeIndexForRandomString;
 import org.springframework.stereotype.Service;
-
-import java.util.Random;
 
 @Service
 public class RandomKeyMaker implements KeyMaker {
     private final int KEY_LENGTH = 8;
-    private String randomKey;
-    private final Random random = new Random();
+    private final char[] BASE_62_CHAR = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".toCharArray();
 
     @Override
-    public void makeKey() {
-        randomKey = levelingKey(random.ints(AsciiCodeIndexForRandomString.NUMBER_START_IN_ASCII_CODE.index, AsciiCodeIndexForRandomString.LOWER_ALPHABET_LIMIT_IN_ASCII_CODE.index)
-                .filter(i -> (i <= AsciiCodeIndexForRandomString.NUMBER_LIMIT_IN_ASCII_CODE.index || i >= AsciiCodeIndexForRandomString.UPPER_ALPHABET_START_IN_ASCII_CODE.index)
-                        && (i <= AsciiCodeIndexForRandomString.UPPER_ALPHABET_LIMIT_IN_ASCII_CODE.index || i >= AsciiCodeIndexForRandomString.LOWER_ALPHABET_START_IN_ASCII_CODE.index))
-                .limit(KEY_LENGTH)
-                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                .toString());
+    public String makeKey(int id) {
+        StringBuilder sb = new StringBuilder();
+
+        do {
+            int value = id % 62;
+            sb.append(BASE_62_CHAR[value]);
+            id /= 62;
+        } while (id > 0);
+
+        if (sb.length() < KEY_LENGTH) {
+            keyAppendInBlank(sb);
+        }
+
+        return sb.toString();
     }
 
-    private String levelingKey(String randomKey) {
-        return randomKey.replaceAll("/[il]/g", "1");
-    }
+    private void keyAppendInBlank(StringBuilder key) {
+        int gap = KEY_LENGTH - key.length();
 
-    public String getKey() {
-        return randomKey;
+        for (int i = 0; i < gap; i++) {
+            key.append("A");
+        }
     }
 }

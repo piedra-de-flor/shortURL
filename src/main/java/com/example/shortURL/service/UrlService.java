@@ -55,21 +55,18 @@ public class UrlService {
     }
 
     private Url makeNewUrl(String originUrl) {
-        Url newUrl = new Url(originUrl, makeKey());
+        int id = repository.getId();
+
+        Url newUrl = new Url(originUrl, makeKey(id));
+        newUrl.setId(id);
+
         saveUrl(newUrl);
 
         return newUrl;
     }
 
-    private String makeKey() {
-        String key;
-
-        do {
-            keyMaker.makeKey();
-            key = keyMaker.getKey();
-        } while (repository.validateDuplication(key));
-
-        return new NewUrl(key).getNewUrl();
+    private String makeKey(int id) {
+       return new NewUrl(keyMaker.makeKey(id)).getNewUrl();
     }
 
     public String saveUrl(Url url) {
