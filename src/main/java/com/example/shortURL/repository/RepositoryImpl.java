@@ -2,6 +2,7 @@ package com.example.shortURL.repository;
 
 import com.example.shortURL.domain.Url;
 import com.example.shortURL.vo.NewUrl;
+import com.example.shortURL.vo.UrlID;
 import org.slf4j.Logger;
 
 import java.util.List;
@@ -50,6 +51,15 @@ public class RepositoryImpl implements Repository {
         return checkFindUrlIsPresent(result);
     }
 
+    @Override
+    public Url findById(int id) {
+        Optional<Url> result = urls.stream()
+                .filter(url -> url.getId() == id)
+                .findAny();
+
+        return checkFindUrlIsPresent(result);
+    }
+
     private Url checkFindUrlIsPresent(Optional<Url> resultForFind) {
         if (resultForFind.isPresent()) {
             log.info("info log = {}", "database access");
@@ -90,5 +100,10 @@ public class RepositoryImpl implements Repository {
     @Override
     public int getDataSize() {
         return urls.size();
+    }
+
+    @Override
+    public int getId() {
+        return UrlID.getInstance().getId();
     }
 }

@@ -12,6 +12,10 @@ public class NewUrl {
         return this.newUrl;
     }
 
+    public String getKey() {
+        return newUrl.substring(baseDomainName.getDomain().length());
+    }
+
     private String plusBaseDomain(String newUrl) {
         if (newUrl.startsWith(baseDomainName.getDomain())) {
             return newUrl;

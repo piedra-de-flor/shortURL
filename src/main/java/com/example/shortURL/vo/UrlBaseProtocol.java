@@ -2,6 +2,7 @@ package com.example.shortURL.vo;
 
 public class UrlBaseProtocol {
     private final String BASE_PROTOCOL = "http://";
+    private final String BASE_PROTOCOL_SECURE = "https://";
     private final String WORLD_WIDE_WEB = "www.";
     private final String originUrlWithBaseProtocol;
 
@@ -20,11 +21,20 @@ public class UrlBaseProtocol {
     }
 
     private boolean isStartWithHttpProtocol(String originUrl) {
-        return originUrl.toLowerCase().startsWith(BASE_PROTOCOL);
+        return originUrl.toLowerCase().startsWith(BASE_PROTOCOL) || originUrl.toLowerCase().startsWith(BASE_PROTOCOL_SECURE);
     }
 
     private String plusW3(String originUrl) {
-        String originDomainName = originUrl.substring(UrlIndexValue.END_INDEX_OF_URL_BASE_PROTOCOL.index);
+        String originDomainName = null;
+                
+        if (originUrl.startsWith(BASE_PROTOCOL)) {
+            originDomainName = originUrl.substring(UrlIndexValue.END_INDEX_OF_URL_BASE_PROTOCOL.index);    
+        }
+        
+        if (originUrl.startsWith(BASE_PROTOCOL_SECURE)) {
+            originDomainName = originUrl.substring(UrlIndexValue.END_INDEX_OF_URL_BASE_PROTOCOL_SECURE.index);
+        }
+
         String domainNameLowerCase = originDomainName.toLowerCase();
 
         if (domainNameLowerCase.startsWith(WORLD_WIDE_WEB)) {

@@ -25,7 +25,15 @@ public class Url {
         setDeleteDate();
     }
 
-    protected Url() {
+    public Url() {
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getOriginUrl() {
